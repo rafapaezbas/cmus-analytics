@@ -7,6 +7,7 @@ import Html.Attributes exposing (class)
 import Sample exposing (..)
 import YearChart exposing (..)
 import TopArtists exposing (..)
+import TopAlbums exposing (..)
 
 
 -- MAIN
@@ -48,7 +49,7 @@ view : Model -> Html Msg
 view model =
      Html.div
          [ class "container" ]
-         ([ YearChart.chart model.samples ] ++ (artistsChart model))
+         ([ YearChart.chart model.samples ] ++ (artistsChart model) ++ (albumsChart model))
 
 artistsChart : Model -> List (Html Msg)
 artistsChart model =
@@ -57,6 +58,14 @@ artistsChart model =
         topArtists = TopArtists.getArtistsDataList model.samples |> TopArtists.sortArtistsByQuantity |> List.reverse |> List.take 10
     in
         List.map (\a -> Html.p [][text (.name a)]) topArtists
+
+albumsChart : Model -> List (Html Msg)
+albumsChart model =
+    let
+        topAlbums: List AlbumData
+        topAlbums = TopAlbums.getAlbumsDataList model.samples |> TopAlbums.sortAlbumsByQuantity |> List.reverse |> List.take 10
+    in
+        List.map (\a -> Html.p [][text (.artist a ++ " - " ++ .name a)]) topAlbums
 
 -- SUBSCRIPTIONS
 
