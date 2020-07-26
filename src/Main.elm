@@ -22,17 +22,15 @@ main =
 
 
 -- MODEL
-
-type alias Sample = { artist: String, album: String, title: String, year: String}
 type alias Model = { samples : List Sample }
 
 init : String -> ( Model, Cmd Msg )
 init fileData =
     let
-        decodeResult : List (Result Json.Decode.Error Sample)
-        decodeResult = List.map decodeSample (String.split "\n" fileData)
+        decodedSamples : List (Result Json.Decode.Error Sample)
+        decodedSamples = List.map Sample.decodeSample (String.split "\n" fileData)
      in
-    ( { samples =  List.map extractSample decodeResult |> List.filter isNotDefaultSample }
+    ( { samples =  List.map Sample.extractSample decodedSamples |> List.filter Sample.isNotDefaultSample }
     , Cmd.none
     )
 
@@ -50,9 +48,15 @@ view : Model -> Html Msg
 view model =
      Html.div
          [ class "container" ]
-         [     YearChart.chart model.samples,
-               text (TopArtists.getArtistsDataList model.samples |> Debug.toString)
-         ]
+         ([ YearChart.chart model.samples ] ++ (artistsChart model))
+
+artistsChart : Model -> List (Html Msg)
+artistsChart model =
+    let
+        topArtists: List ArtistData
+        topArtists = TopArtists.getArtistsDataList model.samples |> TopArtists.sortArtistsByQuantity |> List.reverse |> List.take 10
+    in
+        List.map (\a -> Html.p [][text (.name a)]) topArtists
 
 -- SUBSCRIPTIONS
 
