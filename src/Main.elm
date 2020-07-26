@@ -4,8 +4,8 @@ import Browser
 import Html exposing (Html, text)
 import Json.Decode exposing (Decoder, field, string, int)
 import Html.Attributes exposing (class)
-import Entry exposing (..)
-import AlbumsPerYear exposing (..)
+import Sample exposing (..)
+import YearChart exposing (..)
 
 
 -- MAIN
@@ -22,38 +22,38 @@ main =
 
 -- MODEL
 
-type alias Entry = { artist: String, album: String, title: String, year: String}
-type alias Model = { entries : List Entry }
+type alias Sample = { artist: String, album: String, title: String, year: String}
+type alias Model = { samples : List Sample }
 
-decodeEntry: String -> Result Json.Decode.Error Entry
-decodeEntry entry =
+decodeSample: String -> Result Json.Decode.Error Sample
+decodeSample sample =
     Json.Decode.decodeString (
                  Json.Decode.map4
-                 Entry
+                 Sample
                  (field "artist" string)
                  (field "album" string)
                  (field "title" string)
                  (field "year" string)
-                 ) entry
+                 ) sample
 
-extractEntry: Result Json.Decode.Error Entry -> Entry
-extractEntry result =
+extractSample: Result Json.Decode.Error Sample -> Sample
+extractSample result =
     case result of
         Err _ ->
             { artist = "default", album = "default" , title = "default" , year = "default" }
-        Ok entry ->
-            entry
+        Ok sample ->
+            sample
 
-isNotDefaultEntry: Entry -> Bool
-isNotDefaultEntry entry = .artist entry /= "default" || .album entry /= "default" || .title entry /= "default" || .year entry /= "default"
+isNotDefaultSample: Sample -> Bool
+isNotDefaultSample sample = .artist sample /= "default" || .album sample /= "default" || .title sample /= "default" || .year sample /= "default"
 
 init : String -> ( Model, Cmd Msg )
 init fileData =
     let
-        decodeResult : List (Result Json.Decode.Error Entry)
-        decodeResult = List.map decodeEntry (String.split "\n" fileData)
+        decodeResult : List (Result Json.Decode.Error Sample)
+        decodeResult = List.map decodeSample (String.split "\n" fileData)
      in
-    ( { entries =  List.map extractEntry decodeResult |> List.filter isNotDefaultEntry }
+    ( { samples =  List.map extractSample decodeResult |> List.filter isNotDefaultSample }
     , Cmd.none
     )
 
@@ -69,11 +69,9 @@ update _ model =
 
 view : Model -> Html Msg
 view model =
-  --  text ((Result.withDefault {data = "defaultValue", number = 33}  model.entry).number |> String.fromInt)
      Html.div
          [ class "container" ]
-         [ AlbumsPerYear.chart model.entries ]
-    -- text(Debug.toString model.entries)
+         [ YearChart.chart model.samples ]
 
 -- SUBSCRIPTIONS
 

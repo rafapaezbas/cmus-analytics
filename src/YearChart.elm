@@ -1,13 +1,13 @@
-module AlbumsPerYear exposing (..)
+module YearChart exposing (..)
 
 import Html
 import LineChart
 import LineChart.Dots as Dots
 import Color
-import Entry exposing (..)
+import Sample exposing (..)
 
 
-chart : List Entry -> Html.Html msg
+chart : List Sample -> Html.Html msg
 chart entries =
   let
       line = createLine entries
@@ -18,7 +18,7 @@ chart entries =
 type alias Info = { year : Float, quantity : Float }
 
 
-createLine : List Entry -> List Info
+createLine : List Sample -> List Info
 createLine entries =
    let
        years = List.range (getMinYear entries) (getMaxYear entries)
@@ -26,7 +26,7 @@ createLine entries =
        List.map (\y -> getInfoByYear y entries) years
 
 
-getMaxYear : List Entry -> Int
+getMaxYear : List Sample -> Int
 getMaxYear entries =
     let
         years: List Int
@@ -34,7 +34,7 @@ getMaxYear entries =
     in
         Maybe.withDefault 0 (List.maximum years)
 
-getMinYear : List Entry -> Int
+getMinYear : List Sample -> Int
 getMinYear entries =
     let
         years: List Int
@@ -43,6 +43,6 @@ getMinYear entries =
         Maybe.withDefault 0 (List.minimum years)
 
 
-getInfoByYear : Int -> List Entry -> Info
+getInfoByYear : Int -> List Sample -> Info
 getInfoByYear year entries =
     Info (toFloat year) (List.filter (\e -> .year e == (Debug.toString year)) entries |> List.length |> toFloat)
