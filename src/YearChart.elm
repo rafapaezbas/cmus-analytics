@@ -11,7 +11,7 @@ chart samples =
   let
       line = createLine samples
   in
-      LineChart.view .year .quantity [ LineChart.line Color.red Dots.diamond "Top years" (createLine samples) ]
+      LineChart.view .year .quantity [ LineChart.line Color.red Dots.diamond "Top years" (createLine samples |> List.filter (\p -> .quantity p /= 0)) ]
 
 
 type alias Point = { year : Float, quantity : Float }
