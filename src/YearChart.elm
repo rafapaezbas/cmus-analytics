@@ -6,24 +6,23 @@ import LineChart.Dots as Dots
 import Color
 import Sample exposing (..)
 
-
 chart : List Sample -> Html.Html msg
 chart entries =
   let
       line = createLine entries
   in
-  LineChart.view .year .quantity [ LineChart.line Color.red Dots.diamond "Records/year" (createLine entries) ]
+      LineChart.view .year .quantity [ LineChart.line Color.red Dots.diamond "Top years" (createLine entries) ]
 
 
-type alias Info = { year : Float, quantity : Float }
+type alias Point = { year : Float, quantity : Float }
 
 
-createLine : List Sample -> List Info
+createLine : List Sample -> List Point
 createLine entries =
    let
        years = List.range (getMinYear entries) (getMaxYear entries)
    in
-       List.map (\y -> getInfoByYear y entries) years
+       List.map (\y -> getPointByYear y entries) years
 
 
 getMaxYear : List Sample -> Int
@@ -43,6 +42,6 @@ getMinYear entries =
         Maybe.withDefault 0 (List.minimum years)
 
 
-getInfoByYear : Int -> List Sample -> Info
-getInfoByYear year entries =
-    Info (toFloat year) (List.filter (\e -> .year e == (Debug.toString year)) entries |> List.length |> toFloat)
+getPointByYear : Int -> List Sample -> Point
+getPointByYear year entries =
+    Point (toFloat year) (List.filter (\e -> .year e == (Debug.toString year)) entries |> List.length |> toFloat)

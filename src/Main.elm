@@ -6,6 +6,7 @@ import Json.Decode exposing (Decoder, field, string, int)
 import Html.Attributes exposing (class)
 import Sample exposing (..)
 import YearChart exposing (..)
+import TopArtists exposing (..)
 
 
 -- MAIN
@@ -71,7 +72,9 @@ view : Model -> Html Msg
 view model =
      Html.div
          [ class "container" ]
-         [ YearChart.chart model.samples ]
+         [     YearChart.chart model.samples,
+               text (TopArtists.getArtistsDataList model.samples |> Debug.toString)
+         ]
 
 -- SUBSCRIPTIONS
 
