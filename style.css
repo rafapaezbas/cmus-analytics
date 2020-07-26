@@ -1,0 +1,15 @@
+.caps-formated {
+	text-transform: capitalize;
+}
+
+.container {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+}
+
+.panel {
+	border: 1px solid red;
+	width:49%;
+	height: 60vh;
+}

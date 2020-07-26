@@ -23,6 +23,7 @@ main =
 
 
 -- MODEL
+
 type alias Model = { samples : List Sample }
 
 init : String -> ( Model, Cmd Msg )
@@ -49,23 +50,31 @@ view : Model -> Html Msg
 view model =
      Html.div
          [ class "container" ]
-         ([ YearChart.chart model.samples ] ++ (artistsChart model) ++ (albumsChart model))
+         [yearChart model, artistsChart model, albumsChart model]
 
-artistsChart : Model -> List (Html Msg)
+yearChart: Model -> Html Msg
+yearChart model =
+    Html.div [class "panel"] [YearChart.chart model.samples]
+
+artistsChart : Model -> Html Msg
 artistsChart model =
     let
         topArtists: List ArtistData
         topArtists = TopArtists.getArtistsDataList model.samples |> TopArtists.sortArtistsByQuantity |> List.reverse |> List.take 10
+        htmlTopArtistsList: List (Html Msg)
+        htmlTopArtistsList = List.map (\a -> Html.p [class "caps-formated"][text (.name a |> String.toLower)]) topArtists
     in
-        List.map (\a -> Html.p [][text (.name a |> String.toLower)]) topArtists
+        Html.div [class "panel"] ([Html.h2 [] [text "Top 10 Artists"]] ++ htmlTopArtistsList)
 
-albumsChart : Model -> List (Html Msg)
+albumsChart : Model -> Html Msg
 albumsChart model =
     let
         topAlbums: List AlbumData
         topAlbums = TopAlbums.getAlbumsDataList model.samples |> TopAlbums.sortAlbumsByQuantity |> List.reverse |> List.take 10
+        htmlTopAlbumsList: List (Html Msg)
+        htmlTopAlbumsList = List.map (\a -> Html.p [class "caps-formated"][text (.artist a ++ " - " ++ .name a |> String.toLower)]) topAlbums
     in
-        List.map (\a -> Html.p [][text (.artist a ++ " - " ++ .name a |> String.toLower)]) topAlbums
+        Html.div [class "panel"] ([Html.h2 [] [text "Top 10 Albums"]] ++ htmlTopAlbumsList)
 
 -- SUBSCRIPTIONS
 
