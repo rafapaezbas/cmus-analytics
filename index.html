@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html>
+
+    <head>
+        <meta charset="UTF-8">
+        <script type="text/javascript" src="elm.js"></script>
+    </head>
+
+    <body>
+		    <input type="file" id="file">
+        <div id="myapp"></div>
+    </body>
+
+    <script type="text/javascript">
+     document.getElementById('file').addEventListener('change', function() {
+	       var fr=new FileReader();
+	       fr.onload=function(){
+             // Load the Elm app, passing in the file content.
+             var app = Elm.Main.init({
+	               node: document.getElementById('myapp'),
+	               flags: fr.result
+             });
+	       }
+	       fr.readAsText(this.files[0]);
+     });
+    </script>
+
+</html>
