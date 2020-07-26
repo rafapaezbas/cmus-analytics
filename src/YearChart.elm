@@ -7,41 +7,41 @@ import Color
 import Sample exposing (..)
 
 chart : List Sample -> Html.Html msg
-chart entries =
+chart samples =
   let
-      line = createLine entries
+      line = createLine samples
   in
-      LineChart.view .year .quantity [ LineChart.line Color.red Dots.diamond "Top years" (createLine entries) ]
+      LineChart.view .year .quantity [ LineChart.line Color.red Dots.diamond "Top years" (createLine samples) ]
 
 
 type alias Point = { year : Float, quantity : Float }
 
 
 createLine : List Sample -> List Point
-createLine entries =
+createLine samples =
    let
-       years = List.range (getMinYear entries) (getMaxYear entries)
+       years = List.range (getMinYear samples) (getMaxYear samples)
    in
-       List.map (\y -> getPointByYear y entries) years
+       List.map (\y -> getPointByYear y samples) years
 
 
 getMaxYear : List Sample -> Int
-getMaxYear entries =
+getMaxYear samples =
     let
         years: List Int
-        years = List.map ( \e -> .year e |> String.toInt |> Maybe.withDefault 0 ) entries
+        years = List.map ( \s -> .year s |> String.toInt |> Maybe.withDefault 0 ) samples
     in
         Maybe.withDefault 0 (List.maximum years)
 
 getMinYear : List Sample -> Int
-getMinYear entries =
+getMinYear samples =
     let
         years: List Int
-        years = List.map ( \e -> .year e |> String.toInt |> Maybe.withDefault 9999 ) entries
+        years = List.map ( \s -> .year s |> String.toInt |> Maybe.withDefault 9999 ) samples
     in
         Maybe.withDefault 0 (List.minimum years)
 
 
 getPointByYear : Int -> List Sample -> Point
-getPointByYear year entries =
-    Point (toFloat year) (List.filter (\e -> .year e == (Debug.toString year)) entries |> List.length |> toFloat)
+getPointByYear year samples =
+    Point (toFloat year) (List.filter (\s -> .year s == (Debug.toString year)) samples |> List.length |> toFloat)
