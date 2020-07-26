@@ -57,7 +57,7 @@ artistsChart model =
         topArtists: List ArtistData
         topArtists = TopArtists.getArtistsDataList model.samples |> TopArtists.sortArtistsByQuantity |> List.reverse |> List.take 10
     in
-        List.map (\a -> Html.p [][text (.name a)]) topArtists
+        List.map (\a -> Html.p [][text (.name a |> String.toLower)]) topArtists
 
 albumsChart : Model -> List (Html Msg)
 albumsChart model =
@@ -65,7 +65,7 @@ albumsChart model =
         topAlbums: List AlbumData
         topAlbums = TopAlbums.getAlbumsDataList model.samples |> TopAlbums.sortAlbumsByQuantity |> List.reverse |> List.take 10
     in
-        List.map (\a -> Html.p [][text (.artist a ++ " - " ++ .name a)]) topAlbums
+        List.map (\a -> Html.p [][text (.artist a ++ " - " ++ .name a |> String.toLower)]) topAlbums
 
 -- SUBSCRIPTIONS
 
