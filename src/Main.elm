@@ -54,7 +54,7 @@ view model =
 
 yearChart: Model -> Html Msg
 yearChart model =
-    Html.div [class "panel"] [YearChart.chart model.samples]
+    Html.div [class "panel-year-chart"] [YearChart.chart model.samples]
 
 artistsChart : Model -> Html Msg
 artistsChart model =
@@ -64,7 +64,7 @@ artistsChart model =
         htmlTopArtistsList: List (Html Msg)
         htmlTopArtistsList = List.map (\a -> Html.p [class "caps-formated"][text (.name a |> String.toLower)]) topArtists
     in
-        Html.div [class "panel"] ([Html.h2 [] [text "Top 10 Artists"]] ++ htmlTopArtistsList)
+        Html.div [class "panel-top-artists"] ([Html.h2 [] [text "Top 10 Artists"]] ++ htmlTopArtistsList)
 
 albumsChart : Model -> Html Msg
 albumsChart model =
@@ -74,7 +74,7 @@ albumsChart model =
         htmlTopAlbumsList: List (Html Msg)
         htmlTopAlbumsList = List.map (\a -> Html.p [class "caps-formated"][text (.artist a ++ " - " ++ .name a |> String.toLower)]) topAlbums
     in
-        Html.div [class "panel"] ([Html.h2 [] [text "Top 10 Albums"]] ++ htmlTopAlbumsList)
+        Html.div [class "panel-top-albums"] ([Html.h2 [] [text "Top 10 Albums"]] ++ htmlTopAlbumsList)
 
 -- SUBSCRIPTIONS
 

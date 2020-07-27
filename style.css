@@ -1,15 +1,32 @@
+body{
+    font-family: 'Mulish', sans-serif;
+}
+
+h1,h2{
+    font-family: 'Open Sans', sans-serif;
+}
+
 .caps-formated {
-	text-transform: capitalize;
+    text-transform: capitalize;
 }
 
 .container {
-	display: flex;
-	flex-direction: row;
-	flex-wrap: wrap;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
 }
 
-.panel {
-	border: 1px solid red;
-	width:49%;
-	height: 60vh;
+.panel-year-chart {
+    width:69%;
+    height: 0vh;
+}
+
+.panel-top-artists {
+    width:29%;
+    height: 60vh;
+}
+
+.panel-top-albums {
+    width:69%;
+    height: 60vh;
 }
