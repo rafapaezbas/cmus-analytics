@@ -6,6 +6,10 @@ h1,h2{
     font-family: 'Open Sans', sans-serif;
 }
 
+h2{
+    color:#C8C8C8;
+}
+
 .caps-formated {
     text-transform: capitalize;
 }
@@ -14,19 +18,20 @@ h1,h2{
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    padding: 2%;
 }
 
 .panel-year-chart {
-    width:69%;
-    height: 0vh;
+    width:75%;
+    height: 70vh;
 }
 
 .panel-top-artists {
-    width:29%;
+    width:25%;
     height: 60vh;
 }
 
 .panel-top-albums {
-    width:69%;
+    width:75%;
     height: 60vh;
 }

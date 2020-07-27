@@ -54,7 +54,7 @@ view model =
 
 yearChart: Model -> Html Msg
 yearChart model =
-    Html.div [class "panel-year-chart"] [YearChart.chart model.samples]
+    Html.div [class "panel-year-chart"] ([Html.h2 [] [text "Samples/year"]] ++ [YearChart.chart model.samples])
 
 artistsChart : Model -> Html Msg
 artistsChart model =
