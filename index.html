@@ -4,27 +4,68 @@
     <head>
         <link rel="stylesheet" type="text/css" href="style.css" />
         <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@300&family=Open+Sans&display=swap" rel="stylesheet"> 
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <meta charset="UTF-8">
         <script type="text/javascript" src="elm.js"></script>
     </head>
 
     <body>
-		    <input type="file" id="file">
+        <input id="file" type="file">
+        <div class="navbar" id="navbar">
+            <h2 class="navbar-element" id="welcome">Welcome</h2>
+            <h2 class="navbar-element" id="import">Import</h2>
+            <h2 class="navbar-element" id="example"><a href="cmus.log">Example</a></h2>
+            <h2 class="navbar-element" id="development">Development</h2>
+            <h1 class="navbar-element navbar-element-main">Cmus-analytics</h1>
+        </div>
+        <div class="description" id="description">
+        <i class="fa fa-heart"></i>
+        <p class="question">What is Cmus-analytics?</p>
+        <p>A small web application for data visualization extracted from a <a href="https://cmus.github.io/">Cmus</a> log file. Click on the example link and then import it.</p>
+        <p class="question">How can I get a Cmus log file?</p>
+        <p>Cmus is a very powerful music player with a lot possibilities. One of them is using a hook script for actions when the player status changes. With <a href=""> this script</a>, you can create your own Cmus log file.</p>
+        <p class="question">How do I set the script in Cmus?</p>
+        <p>First, you will have to modify the script in order to make it work in your computer. Change the path of the log file.</p>
+        <pre>
+if [[ "$is_playing" = true ]] && [[ "$is_logging" = true ]]
+then
+    echo $entry >> {path_to_the_log_file}
+fi
+        </pre>
+        <p>In Cmus use</p>
+        <pre>
+:set status_display_program {path_to_the_script}
+        </pre>
+        <p class="question">How do see my file?</p>
+        <p>Click <a href="">here</a> and select your generated log file.</p>
+        <p class="question">Can I use this code somehow?</p>
+        <p>Yes, of course! Please be so kind to do it. This application has been developed as a learning project of the <a href="">Elm</a> programing language.
+            It also uses this awesome <a href="">Elm linear charts library.</a></p>
+        </div>
         <div id="myapp"></div>
     </body>
 
     <script type="text/javascript">
+
+     document.getElementById('import').addEventListener('click',function (){
+         document.getElementById('file').click();
+     });
+
      document.getElementById('file').addEventListener('change', function() {
-	       var fr=new FileReader();
-	       fr.onload=function(){
+         document.getElementById('description').remove();
+         var fr=new FileReader();
+         fr.onload=function(){
              // Load the Elm app, passing in the file content.
              var app = Elm.Main.init({
-	               node: document.getElementById('myapp'),
-	               flags: fr.result
+                 node: document.getElementById('myapp'),
+                 flags: fr.result
              });
-	       }
-	       fr.readAsText(this.files[0]);
+         }
+         fr.readAsText(this.files[0]);
      });
+
+     function createCharts(samples){
+     }
     </script>
 
 </html>
