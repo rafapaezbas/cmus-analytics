@@ -53,7 +53,7 @@ var saveChart = (log) => {
       Accept: "*/*",
       "Content-Type": "text/plain",
     };
-    return fetch("http://3.9.171.210/logs", {
+    return fetch("https://3.9.171.210/logs", {
       method: "POST",
       headers: headers,
       body: log,
@@ -68,7 +68,7 @@ var getLog = (id) => {
     const headers = {
       Accept: "text/plain, */*",
     };
-    return fetch("http://3.9.171.210/logs/" + id, {
+    return fetch("https://3.9.171.210/logs/" + id, {
       method: "GET",
       headers: headers,
     }).then((res) => res.text());
