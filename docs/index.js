@@ -10,11 +10,16 @@ window.onload = () => {
 	}
 
 	document.getElementById('save').addEventListener('click',function (){
-		saveChart(log).then(console.log);
+		saveChart(log).then(updateSaveMessage);
 	});
 
 	document.getElementById('import').addEventListener('click',function (){
 		openFileDialog();
+	});
+
+	document.getElementById('random').addEventListener('click',function (){
+		cleanUpDescription();
+		getRandomLog().then(initElm);
 	});
 
 	document.getElementById('file').addEventListener('change', function() {
@@ -73,6 +78,21 @@ var getLog = (id) => {
       headers: headers,
     }).then((res) => res.text());
 };
+
+var getRandomLog = () => {
+    const headers = {
+      Accept: "text/plain, */*",
+    };
+    return fetch("https://3.9.171.210/logs/random", {
+      method: "GET",
+      headers: headers,
+    }).then((res) => res.text());
+};
+
+updateSaveMessage = (id) => {
+	//remove double quotes from id
+	document.getElementById('save-message').innerHTML = "https://rafapaezbas.github.io/cmus-analytics/docs/index.html?id="+id.replace(/"/g,"");
+}
 
 var initElm = (model) => {
 	var app = Elm.Main.init({
